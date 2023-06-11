@@ -29,8 +29,8 @@ func Test_odds(t *testing.T) {
 	}
 
 	// The expected values are the number of hands that have a given strength
-	expexted_h1 := []int{294394, 733544, 392909, 78023, 73340, 94935, 41716, 2420, 1019, 4}
-	expexted_h2 := []int{0, 613226, 674008, 209450, 20626, 29255, 149956, 15620, 29, 134}
+	expexted_h1 := []int{294394, 733544, 392909, 78023, 73340, 94935, 41716, 2420, 1021, 2}
+	expexted_h2 := []int{0, 613226, 674008, 209450, 20626, 29255, 149956, 15620, 117, 46}
 
 	o1, o2, tie := odds(&handsData)
 

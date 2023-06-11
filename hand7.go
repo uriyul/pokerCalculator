@@ -22,7 +22,7 @@ func (h *hand7) Strength(handOdds *HandOdds) strength {
 
 	switch {
 	case h.isStraightFlush():
-		if h.hand.cards[4].value == 14 {
+		if h.hand.cards[4].value == 14 && h.hand.cards[0].value == 10 {
 			h.hand.strength = RoyalFlush
 		} else {
 			h.hand.strength = StraightFlush
