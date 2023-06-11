@@ -21,10 +21,12 @@ func (h *hand7) Strength(handOdds *HandOdds) strength {
 	h.hand.cards = make([]card, 5)
 
 	switch {
-	case h.isRoyalFlush():
-		h.hand.strength = RoyalFlush
 	case h.isStraightFlush():
-		h.hand.strength = StraightFlush
+		if h.hand.cards[4].value == 14 {
+			h.hand.strength = RoyalFlush
+		} else {
+			h.hand.strength = StraightFlush
+		}
 	case h.isFourOfAKind():
 		h.hand.strength = FourOfAKind
 	case h.isFullHouse():
@@ -55,10 +57,6 @@ func safeMapIncrement(m map[strength]int, s strength) {
 	mu.Lock()
 	defer mu.Unlock()
 	m[s]++
-}
-
-func (h *hand7) isRoyalFlush() bool {
-	return h.isStraightFlush() && h.hand.cards[4].value == 14
 }
 
 func (h *hand7) isStraightFlush() bool {

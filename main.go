@@ -41,8 +41,8 @@ func main() {
 
 	fmt.Println("		First hand     Second hand")
 	fmt.Println("_______________________________________")
-	for k, v := range handsData.handsOdds[0].mapOdds {
-		fmt.Printf("%v: %.02f\t\t%.02f\n", strength2String[k], float64(v)*100/float64(handsCount), float64(handsData.handsOdds[1].mapOdds[k])*100/float64(handsCount))
+	for k := len(handsData.handsOdds[0].mapOdds); k > 0; k-- {
+		fmt.Printf("%v: %.02f\t\t%.02f\n", strength2String[strength(k)], float64(handsData.handsOdds[0].mapOdds[strength(k)])*100/float64(handsCount), float64(handsData.handsOdds[1].mapOdds[strength(k)])*100/float64(handsCount))
 	}
 
 	fmt.Println("Time taken: ", time.Since(start))
