@@ -27,6 +27,19 @@ const (
 	RoyalFlush                        // 10
 )
 
+var strength2String = map[strength]string{
+	HighCard:      "High Card      ",
+	Pair:          "Pair           ",
+	TwoPair:       "Two Pair       ",
+	ThreeOfAKind:  "Three of a Kind",
+	Straight:      "Straight       ",
+	Flush:         "Flush          ",
+	FullHouse:     "Full House     ",
+	FourOfAKind:   "Four of a Kind ",
+	StraightFlush: "Straight Flush ",
+	RoyalFlush:    "Royal Flush    ",
+}
+
 // String method for hand
 func (h hand) String() string {
 	return fmt.Sprintf("%v", h.cards)

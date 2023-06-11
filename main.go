@@ -20,15 +20,30 @@ func main() {
 	}
 
 	board := []card{
-		//{suit: Hearts, value: 7},
-		//{suit: Spades, value: 8},
-		//{suit: Spades, value: 9},
-		//{suit: Spades, value: 5},
+		{suit: Hearts, value: 7},
+		{suit: Spades, value: 8},
+		{suit: Spades, value: 9},
+		// {suit: Spades, value: 5},
 	}
 
-	o1, o2, tie := odds(h1, h2, board)
+	handsData := HandsData{
+		handsOdds: []HandOdds{{h1, map[strength]int{}}, {h2, map[strength]int{}}},
+		board:     board,
+	}
+
+	o1, o2, tie := odds(&handsData)
 
 	fmt.Println(o1, o2, tie)
+	handsCount := 0
+	for _, v := range handsData.handsOdds[0].mapOdds {
+		handsCount += v
+	}
+
+	fmt.Println("		First hand     Second hand")
+	fmt.Println("_______________________________________")
+	for k, v := range handsData.handsOdds[0].mapOdds {
+		fmt.Printf("%v: %.02f\t\t%.02f\n", strength2String[k], float64(v)*100/float64(handsCount), float64(handsData.handsOdds[1].mapOdds[k])*100/float64(handsCount))
+	}
 
 	fmt.Println("Time taken: ", time.Since(start))
 

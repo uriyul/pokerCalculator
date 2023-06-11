@@ -8,27 +8,38 @@ import (
 var m sync.Mutex
 var wg sync.WaitGroup
 
-func odds(h1 []card, h2 []card, board []card) (float64, float64, float64) {
+type HandsData struct {
+	handsOdds []HandOdds
+	board     []card
+}
+
+type HandOdds struct {
+	pockets []card
+	mapOdds map[strength]int
+}
+
+func (h *HandsData) CalcOdds() {
+
+}
+
+func odds(handsData *HandsData) (float64, float64, float64) {
 	deck := newDeck()
-	deck = substruct(deck, h1)
-	deck = substruct(deck, h2)
-	deck = substruct(deck, board)
+	deck = substruct(deck, handsData.handsOdds[0].pockets)
+	deck = substruct(deck, handsData.handsOdds[1].pockets)
+	deck = substruct(deck, handsData.board)
 	m = sync.Mutex{}
 	wg = sync.WaitGroup{}
 
 	first := 0
 	second := 0
 	tie := 0
-	h1 = append(h1, board...)
-	h2 = append(h2, board...)
 
-	new := true
-
-	if new {
-		first, second, tie = odds_option2(h1, h2, deck)
-	} else {
-		first, second, tie = odds_option1(h1, h2, deck)
+	for k := range handsData.handsOdds {
+		m := map[strength]int{StraightFlush: 0, FourOfAKind: 0, FullHouse: 0, Flush: 0, Straight: 0, ThreeOfAKind: 0, TwoPair: 0, Pair: 0, HighCard: 0}
+		handsData.handsOdds[k].mapOdds = m
 	}
+
+	first, second, tie = calcOdds(handsData, deck)
 
 	size := first + second + tie
 
@@ -40,23 +51,22 @@ func odds(h1 []card, h2 []card, board []card) (float64, float64, float64) {
 	return o1, o2, otie
 }
 
-func odds_option2(h1 []card, h2 []card, deck []card) (int, int, int) {
-	fmt.Println("odds_option2")
+func calcOdds(handsData *HandsData, deck []card) (int, int, int) {
 	first := 0
 	second := 0
 	tie := 0
 	cards := []card{}
-	nestedLoop(cards, deck, len(deck)-43, h1, h2, &first, &second, &tie)
+	nestedLoop(cards, deck, len(deck)-43, handsData, &first, &second, &tie)
 	wg.Wait()
 
 	return first, second, tie
 }
 
-func nestedLoop(cards []card, deck []card, i int, h1 []card, h2 []card, first *int, second *int, tie *int) {
+func nestedLoop(cards []card, deck []card, i int, handsData *HandsData, first *int, second *int, tie *int) {
 	if i == 0 {
 		wg.Add(1)
 		go func() {
-			compareHands(h1, h2, cards, first, second, tie)
+			compareHands(handsData, cards, first, second, tie)
 			wg.Done()
 		}()
 
@@ -66,37 +76,12 @@ func nestedLoop(cards []card, deck []card, i int, h1 []card, h2 []card, first *i
 	for j := len(deck) - 1; j >= 0; j-- {
 		c := deck[j]
 		deck = deck[:j]
-		nestedLoop(append(cards, c), deck, i-1, h1, h2, first, second, tie)
+		nestedLoop(append(cards, c), deck, i-1, handsData, first, second, tie)
 	}
 }
 
-func odds_option1(h1 []card, h2 []card, deck []card) (int, int, int) {
-	fmt.Println("odds_option1")
-	missingCardsCount := 7 - len(h1)
-	combinations := getCombinations(deck, missingCardsCount)
-	wg.Add(len(combinations))
-
-	size := len(combinations)
-	first := 0
-	second := 0
-	tie := 0
-
-	fmt.Printf("number of combinations: %v\n", size)
-	for _, c := range combinations {
-		go func(c []card) {
-			compareHands(h1, h2, c, &first, &second, &tie)
-			wg.Done()
-		}(c)
-	}
-	wg.Wait()
-
-	return first, second, tie
-}
-
-func compareHands(h1 []card, h2 []card, c []card, first *int, second *int, tie *int) {
-	hand1 := hand7{cards: append(h1, c...)}
-	hand2 := hand7{cards: append(h2, c...)}
-	result := hand1.Compare(&hand2)
+func compareHands(handsData *HandsData, c []card, first *int, second *int, tie *int) {
+	result := Compare(handsData, c)
 
 	if result == 1 {
 		safeIncrement(first)
@@ -111,34 +96,6 @@ func safeIncrement(i *int) {
 	m.Lock()
 	defer m.Unlock()
 	*i++
-}
-
-func getCombinations(deck []card, missingCardsCount int) [][]card {
-
-	combinations := [][]card{}
-
-	for j := 0; j < len(deck); j++ {
-		combinations = append(combinations, []card{deck[j]})
-	}
-
-	for i := 1; i < missingCardsCount; i++ {
-		combinations = combine(combinations, deck)
-	}
-
-	return combinations
-}
-
-func combine(combinations [][]card, cards []card) [][]card {
-	for _, c := range combinations {
-		for _, c2 := range cards {
-			if !contains(c, c2) {
-				a := append(c, c2)
-				combinations = append(combinations, a)
-			}
-		}
-		combinations = combinations[1:]
-	}
-	return combinations
 }
 
 func substruct(deck []card, cards []card) []card {

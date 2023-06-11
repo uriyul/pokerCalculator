@@ -39,7 +39,11 @@ func TestHand7_Compare(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.hand1.Compare(&tt.hand2); got != tt.expected {
+			handsData := HandsData{
+				handsOdds: []HandOdds{{tt.hand1.cards, map[strength]int{}}, {tt.hand2.cards, map[strength]int{}}},
+				board:     []card{},
+			}
+			if got := Compare(&handsData, []card{}); got != tt.expected {
 				t.Errorf("Hand7.Compare() = %v, want %v", got, tt.expected)
 			}
 		})
@@ -63,7 +67,7 @@ func TestHand7_Strength(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.hand.Strength(); got != tt.expected {
+			if got := tt.hand.Strength(&HandOdds{mapOdds: map[strength]int{}}); got != tt.expected {
 				t.Errorf("Hand7.Strength() = %v, want %v", got, tt.expected)
 			}
 		})

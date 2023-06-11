@@ -2,6 +2,7 @@ package main
 
 import (
 	"sort"
+	"sync"
 )
 
 // a struct to hold a hand of cards
@@ -10,7 +11,7 @@ type hand7 struct {
 	hand  hand
 }
 
-func (h *hand7) Strength() strength {
+func (h *hand7) Strength(handOdds *HandOdds) strength {
 	if h.hand.strength != 0 {
 		return h.hand.strength
 	}
@@ -43,7 +44,17 @@ func (h *hand7) Strength() strength {
 		h.hand.strength = HighCard
 	}
 
+	safeMapIncrement(handOdds.mapOdds, h.hand.strength)
+
 	return h.hand.strength
+}
+
+var mu sync.Mutex = sync.Mutex{}
+
+func safeMapIncrement(m map[strength]int, s strength) {
+	mu.Lock()
+	defer mu.Unlock()
+	m[s]++
 }
 
 func (h *hand7) isRoyalFlush() bool {
@@ -334,12 +345,36 @@ func (h *hand7) HighCard() {
 		int(h.hand.cards[0].value)
 }
 
-func (h *hand7) Compare(other *hand7) int {
+// func (h *hand7) Compare(other *hand7) int {
 
-	h.Strength()
-	other.Strength()
+// 	h.Strength()
+// 	other.Strength()
 
-	return h.hand.Compare(other.hand)
+// 	return h.hand.Compare(other.hand)
+// }
+
+func Compare(handsData *HandsData, c []card) int {
+	hand1 := hand7{cards: append(handsData.handsOdds[0].pockets, c...)}
+	hand1.cards = append(hand1.cards, handsData.board...)
+
+	hand2 := hand7{cards: append(handsData.handsOdds[1].pockets, c...)}
+	hand2.cards = append(hand2.cards, handsData.board...)
+
+	hand1.Strength(&handsData.handsOdds[0])
+	hand2.Strength(&handsData.handsOdds[1])
+
+	if hand1.hand.strength > hand2.hand.strength {
+		return 1
+	} else if hand1.hand.strength < hand2.hand.strength {
+		return -1
+	} else if hand1.hand.secondaryStrength > hand2.hand.secondaryStrength {
+		return 1
+	} else if hand1.hand.secondaryStrength < hand2.hand.secondaryStrength {
+		return -1
+	} else {
+		return 0
+	}
+
 }
 
 func (h *hand7) sort() {

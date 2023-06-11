@@ -40,7 +40,12 @@ func Test_odds(t *testing.T) {
 		// {suit: "Spades", value: 5},
 	}
 
-	o1, o2, tie := odds(h1, h2, board)
+	handsData := HandsData{
+		handsOdds: []HandOdds{{h1, map[strength]int{}}, {h2, map[strength]int{}}},
+		board:     board,
+	}
+
+	o1, o2, tie := odds(&handsData)
 
 	fmt.Println(o1, o2, tie)
 }
