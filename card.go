@@ -21,25 +21,27 @@ const (
 func (c card) String() string {
 
 	switch c.value {
+	case 10:
+		return fmt.Sprintf("T%s", suitMap[c.suit])
 	case 11:
-		return fmt.Sprintf("Jack of %s", suitMap[c.suit])
+		return fmt.Sprintf("J%s", suitMap[c.suit])
 	case 12:
-		return fmt.Sprintf("Queen of %s", suitMap[c.suit])
+		return fmt.Sprintf("Q%s", suitMap[c.suit])
 	case 13:
-		return fmt.Sprintf("King of %s", suitMap[c.suit])
+		return fmt.Sprintf("K%s", suitMap[c.suit])
 	case 14:
-		return fmt.Sprintf("Ace of %s", suitMap[c.suit])
+		return fmt.Sprintf("A%s", suitMap[c.suit])
 	default:
-		return fmt.Sprintf("%d of %s", c.value, suitMap[c.suit])
+		return fmt.Sprintf("%d%s", c.value, suitMap[c.suit])
 
 	}
 }
 
 var suitMap = map[Suit]string{
-	Spades:   "Spades",
-	Diamonds: "Diamonds",
-	Clubs:    "Clubs",
-	Hearts:   "Hearts",
+	Spades:   "♠",
+	Diamonds: "♦",
+	Clubs:    "♣",
+	Hearts:   "♥",
 }
 
 //var deck []card

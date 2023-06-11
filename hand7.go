@@ -7,8 +7,8 @@ import (
 
 // a struct to hold a hand of cards
 type hand7 struct {
-	cards []card
-	hand  hand
+	cards []card // 7 cards
+	hand  hand   // 5 chosen cards out of 7
 }
 
 func (h *hand7) Strength(handOdds *HandOdds) strength {
@@ -257,7 +257,6 @@ func (h *hand7) isTwoPair() bool {
 	var pair2 byte
 	var kicker byte
 
-	// TODO case of AAKKQQ9 should be two pair KKAAQ
 	for _, cards := range cardsMap {
 		if len(cards) == 2 {
 			if cards[0].value > pair1 {
@@ -342,14 +341,6 @@ func (h *hand7) HighCard() {
 		int(h.hand.cards[2].value)*100 +
 		int(h.hand.cards[0].value)
 }
-
-// func (h *hand7) Compare(other *hand7) int {
-
-// 	h.Strength()
-// 	other.Strength()
-
-// 	return h.hand.Compare(other.hand)
-// }
 
 func Compare(handsData *HandsData, c []card) int {
 	hand1 := hand7{cards: append(handsData.handsOdds[0].pockets, c...)}

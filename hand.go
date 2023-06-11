@@ -2,9 +2,9 @@ package main
 
 // a struct to hold a hand of cards
 type hand struct {
-	cards             []card
+	cards             []card // 5 cards
 	strength          strength
-	secondaryStrength int
+	secondaryStrength int // for tie breakers in the same strength
 }
 
 type strength int

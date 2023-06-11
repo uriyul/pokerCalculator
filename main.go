@@ -9,6 +9,13 @@ func main() {
 
 	start := time.Now()
 
+	Foo()
+
+	fmt.Println("Time taken: ", time.Since(start))
+
+}
+
+func Foo() {
 	h1 := []card{
 		{suit: Clubs, value: 3},
 		{suit: Spades, value: 4},
@@ -31,6 +38,8 @@ func main() {
 		board:     board,
 	}
 
+	fmt.Println("h1: ", h1, " board: ", board)
+
 	o1, o2, tie := odds(&handsData)
 
 	fmt.Println(o1, o2, tie)
@@ -44,7 +53,4 @@ func main() {
 	for k := len(handsData.handsOdds[0].mapOdds); k > 0; k-- {
 		fmt.Printf("%v: %.02f\t\t%.02f\n", strength2String[strength(k)], float64(handsData.handsOdds[0].mapOdds[strength(k)])*100/float64(handsCount), float64(handsData.handsOdds[1].mapOdds[strength(k)])*100/float64(handsCount))
 	}
-
-	fmt.Println("Time taken: ", time.Since(start))
-
 }

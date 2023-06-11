@@ -30,6 +30,7 @@ func TestHand7_Compare(t *testing.T) {
 		{"Flush takes straight", th.handFlush, th.handStraight, 1},
 		{"Straight takes three of a kind", th.handStraight, th.handThreeOfAKind, 1},
 		{"Straight A-5 takes three of a kind", th.handStraightA5, th.handThreeOfAKind, 1},
+		{"Straight A-5 beaten by a higher straight", th.handStraightA5, th.handStraight, -1},
 		{"TwoPair with high kicker part op pair, takes TwoPair with lower kicker ", th.handTwoPairAAKK789, th.handTwoPairAAKKQQ5, -1},
 
 		{"FOAK kicker Ace takes kicker 10", foak.kickerAce, foak.kicker10, 1},
