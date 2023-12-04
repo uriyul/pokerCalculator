@@ -158,7 +158,7 @@ func (h *hand7) isStraight() bool {
 				h.hand.secondaryStrength = int(h.cards[i+4].value)
 				return true
 				// treat case of A2345 as a special case
-			} else if consecutive == 3 && h.cards[i].value == 2 && cards[0].value == 5 && h.cards[6].value == 14 {
+			} else if consecutive == 3 && h.cards[i].value == 2 && h.cards[6].value == 14 {
 				cards = append(cards, h.cards[i])
 				cards = append(cards, h.cards[6])
 				h.hand.cards = cards
@@ -167,7 +167,7 @@ func (h *hand7) isStraight() bool {
 			}
 		} else if h.cards[i].value == h.cards[i+1].value {
 			// Do nothing
-		} else {
+		} else { // not consecutive
 			cards = []card{}
 			consecutive = 0
 		}
@@ -206,7 +206,7 @@ func (h *hand7) isFullHouse() bool {
 	}
 
 	if threeValue > 0 && twoValue > 0 {
-		h.hand.cards = append(cardsMap[threeValue], cardsMap[twoValue]...)
+		h.hand.cards = append(cardsMap[threeValue], cardsMap[twoValue][0], cardsMap[twoValue][1])
 		h.hand.secondaryStrength = int(threeValue)*100 + int(twoValue)
 		return true
 	}

@@ -18,10 +18,6 @@ type HandOdds struct {
 	mapOdds map[strength]int
 }
 
-func (h *HandsData) CalcOdds() {
-
-}
-
 func odds(handsData *HandsData) (float64, float64, float64) {
 	deck := newDeck()
 	deck = substruct(deck, handsData.handsOdds[0].pockets)
@@ -62,7 +58,9 @@ func calcOdds(handsData *HandsData, deck []card) (int, int, int) {
 	return first, second, tie
 }
 
+// / nestedLoop is a recursive function that loops through all possible combinations of cards
 func nestedLoop(cards []card, deck []card, i int, handsData *HandsData, first *int, second *int, tie *int) {
+	// The stop condition - no more cards to draw (river card).
 	if i == 0 {
 		wg.Add(1)
 		go func() {
@@ -73,6 +71,7 @@ func nestedLoop(cards []card, deck []card, i int, handsData *HandsData, first *i
 		return
 	}
 
+	// Loop through all cards in the deck.
 	for j := len(deck) - 1; j >= 0; j-- {
 		c := deck[j]
 		deck = deck[:j]

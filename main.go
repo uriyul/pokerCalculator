@@ -17,13 +17,13 @@ func main() {
 
 func Foo() {
 	h1 := []card{
-		{suit: Clubs, value: 3},
-		{suit: Spades, value: 4},
+		{suit: Clubs, value: 8},
+		{suit: Clubs, value: 9},
 	}
 
 	h2 := []card{
-		{suit: Hearts, value: 9},
-		{suit: Diamonds, value: 10},
+		{suit: Hearts, value: 7},
+		{suit: Diamonds, value: 7},
 	}
 
 	board := []card{
@@ -38,7 +38,7 @@ func Foo() {
 		board:     board,
 	}
 
-	fmt.Println("h1: ", h1, " board: ", board)
+	fmt.Println("h1: ", h1, "h2: ", h2, " board: ", board)
 
 	o1, o2, tie := odds(&handsData)
 
