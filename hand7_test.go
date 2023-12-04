@@ -32,6 +32,7 @@ func TestHand7_Compare(t *testing.T) {
 		{"Straight A-5 takes three of a kind", th.handStraightA5, th.handThreeOfAKind, 1},
 		{"Straight A-5 beaten by a higher straight", th.handStraightA5, th.handStraight, -1},
 		{"TwoPair with high kicker part op pair, takes TwoPair with lower kicker ", th.handTwoPairAAKK789, th.handTwoPairAAKKQQ5, -1},
+		{"Straight Flush 3-8, takes Straight Flush 2-7 ", th.handStraightFlush, th.handStraightFlush2, -1},
 
 		{"FOAK kicker Ace takes kicker 10", foak.kickerAce, foak.kicker10, 1},
 		{"FOAK kicker 10 takes FOAK with low full", foak.kickerAce, foak.fullHouse, 1},
@@ -54,6 +55,8 @@ func TestHand7_Compare(t *testing.T) {
 func TestHand7_Strength(t *testing.T) {
 	foak := fourOfAKindHands7Test{}
 	foak.Init()
+	th := testHands7{}
+	th.Init()
 
 	tests := []struct {
 		name     string
@@ -64,6 +67,7 @@ func TestHand7_Strength(t *testing.T) {
 		{"Four of a kind with kicker 10", foak.kicker10, FourOfAKind},
 		{"Full house", foak.fullHouse, FourOfAKind},
 		{"Straight flush", foak.staightFlush, StraightFlush},
+		{"Straight flush A-5", th.handStraightFlushA5, StraightFlush},
 	}
 
 	for _, tt := range tests {

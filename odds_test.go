@@ -47,10 +47,10 @@ func Test_odds(t *testing.T) {
 		fmt.Printf("%v: %.02f\t\t%.02f\n", strength2String[strength(k)], float64(handsData.handsOdds[0].mapOdds[strength(k)])*100/float64(handsCount), float64(handsData.handsOdds[1].mapOdds[strength(k)])*100/float64(handsCount))
 
 		if handsData.handsOdds[0].mapOdds[strength(k)] != expexted_h1[k-1] {
-			t.Errorf("Expected %v, got %v", expexted_h1[k-1], handsData.handsOdds[0].mapOdds[strength(k)])
+			t.Errorf("Expected %v, got %v for %v", expexted_h1[k-1], handsData.handsOdds[0].mapOdds[strength(k)], strength2String[strength(k)])
 		}
 		if handsData.handsOdds[1].mapOdds[strength(k)] != expexted_h2[k-1] {
-			t.Errorf("Expected %v, got %v", expexted_h2[k-1], handsData.handsOdds[1].mapOdds[strength(k)])
+			t.Errorf("Expected %v, got %v for %v", expexted_h2[k-1], handsData.handsOdds[1].mapOdds[strength(k)], strength2String[strength(k)])
 		}
 	}
 

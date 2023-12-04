@@ -1,20 +1,22 @@
 package main
 
 type testHands7 struct {
-	handHighCard       hand7
-	handPair           hand7
-	handHighPair       hand7
-	handTwoPair        hand7
-	handThreeOfAKind   hand7
-	handStraight       hand7
-	handFlush          hand7
-	handFullHouse      hand7
-	handFourOfAKind    hand7
-	handStraightFlush  hand7
-	handRoyalFlush     hand7
-	handStraightA5     hand7
-	handTwoPairAAKKQQ5 hand7
-	handTwoPairAAKK789 hand7
+	handHighCard        hand7
+	handPair            hand7
+	handHighPair        hand7
+	handTwoPair         hand7
+	handThreeOfAKind    hand7
+	handStraight        hand7
+	handFlush           hand7
+	handFullHouse       hand7
+	handFourOfAKind     hand7
+	handStraightFlush   hand7
+	handStraightFlush2  hand7
+	handStraightFlushA5 hand7
+	handRoyalFlush      hand7
+	handStraightA5      hand7
+	handTwoPairAAKKQQ5  hand7
+	handTwoPairAAKK789  hand7
 }
 
 type fourOfAKindHands7Test struct {
@@ -180,9 +182,31 @@ func (th *testHands7) Init() {
 			{value: 4, suit: Spades},
 			{value: 5, suit: Spades},
 			{value: 6, suit: Spades},
-			{value: 7, suit: Spades},
+			{value: 2, suit: Spades},
 			{value: 6, suit: Clubs},
 			{value: 8, suit: Clubs},
+		},
+	}
+	th.handStraightFlush2 = hand7{
+		cards: []card{
+			{value: 3, suit: Spades},
+			{value: 4, suit: Spades},
+			{value: 5, suit: Spades},
+			{value: 6, suit: Spades},
+			{value: 7, suit: Spades},
+			{value: 2, suit: Spades},
+			{value: 14, suit: Spades},
+		},
+	}
+	th.handStraightFlushA5 = hand7{
+		cards: []card{
+			{value: 3, suit: Spades},
+			{value: 4, suit: Spades},
+			{value: 5, suit: Spades},
+			{value: 6, suit: Hearts},
+			{value: 7, suit: Spades},
+			{value: 2, suit: Spades},
+			{value: 14, suit: Spades},
 		},
 	}
 	th.handRoyalFlush = hand7{

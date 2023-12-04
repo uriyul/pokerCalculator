@@ -74,14 +74,15 @@ func (h *hand7) isStraightFlush() bool {
 			h.hand.cards = suited[i : i+5]
 			h.hand.secondaryStrength = int(suited[i+4].value)
 			return true
-
-			// treat case of A2345 as a special case
-		} else if suited[i].value == 2 && suited[i+3].value == 5 && suited[len(suited)-1].value == 14 {
-			h.hand.cards = suited[i : i+4]
-			h.hand.cards = append(h.hand.cards, suited[len(suited)-1])
-			h.hand.secondaryStrength = 5
-			return true
 		}
+	}
+
+	// treat case of A2345 as a special case
+	if suited[0].value == 2 && suited[3].value == 5 && suited[len(suited)-1].value == 14 {
+		h.hand.cards = suited[0:4]
+		h.hand.cards = append(h.hand.cards, suited[len(suited)-1])
+		h.hand.secondaryStrength = 5
+		return true
 	}
 
 	return false

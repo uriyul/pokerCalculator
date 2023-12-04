@@ -27,9 +27,9 @@ func Foo() {
 	}
 
 	board := []card{
-		{suit: Hearts, value: 7},
-		{suit: Spades, value: 8},
-		{suit: Spades, value: 9},
+		//{suit: Hearts, value: 7},
+		//{suit: Spades, value: 8},
+		//{suit: Spades, value: 9},
 		// {suit: Spades, value: 5},
 	}
 
